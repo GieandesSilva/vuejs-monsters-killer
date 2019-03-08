@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Monsters Killer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="persons">
+                <h2> Jogador </h2>
+                <div class="life-bar">
+                    <div class="life" :class="{'life-danger': playerLife < 20}" :style="{width:playerLife + '%'}">
+                    </div>
+                </div>
+                <p> {{ playerLife }}% </p>
+            </div>
+            <div class="persons">
+                <h2> Monstro </h2>
+                <div class="life-bar">
+                    <div class="life" :class="{'life-danger': monsterLife < 20}" :style="{width:monsterLife + '%'}">
+                    </div>
+                </div>
+                <p> {{ monsterLife }}% </p>
+            </div>
+        </div>
+        <div class="container" v-if="hasResult">
+            <h3 v-if="monsterLife == 0" class="win"> Você Ganhou! :)</h3>
+            <h3 v-else class="loss"> Você Perdeu! :( </h3>
+        </div>
+        <div class="container">
+            <template v-if="running">
+                <button class="btn btn-attack" @click="attack()"> ATAQUE </button>
+                <button class="btn btn-special-attack" @click="attack(true)"> ATAQUE ESPECIAL </button>
+                <button class="btn btn-heal" @click="healAndHurt()"> CURAR </button>
+                <button class="btn btn-leave" @click="leave()"> REINICIAR </button>        
+            </template>
+            <button v-else class="btn btn-start-new-play" @click="startGame()" > INICIAR NOVO JOGO </button>                
+        </div>
+        <div class="container" v-if="logs.length > 0">
+            <ul>
+                <li v-for="log in logs" :class="log.cls"> {{ log.text }} </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="app.js"></script>
+</html>
